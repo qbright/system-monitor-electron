@@ -121,19 +121,15 @@ function createWindow() {
 }
 
 electron__WEBPACK_IMPORTED_MODULE_0__["app"].on("ready", createWindow);
-process.on("message", function () {
-  mainWindow.reload();
-}); // function a() {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve(1111);
-//     }, 2000);
-//   });
-// }
-// async function b() {
-//   let c = await a();
-//   console.log(c);
-// }
+console.log(1231312);
+
+if (isDevelopment) {
+  process.on("message", function (msg) {
+    if (msg === "RELOAD") {
+      mainWindow && mainWindow.reload();
+    }
+  });
+}
 
 /***/ }),
 

@@ -13,22 +13,15 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
 app.on("ready", createWindow);
 
+console.log(1231312);
 
-process.on("message", () => {
-  mainWindow.reload();
-});
-
-// function a() {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve(1111);
-//     }, 2000);
-//   });
-// }
-
-// async function b() {
-//   let c = await a();
-//   console.log(c);
-// }
+if (isDevelopment) {
+  process.on("message", msg => {
+    if (msg === "RELOAD") {
+      mainWindow && mainWindow.reload();
+    }
+  });
+}

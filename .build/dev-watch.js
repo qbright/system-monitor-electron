@@ -4,66 +4,35 @@ const kill = require("./kill");
 
 const MAIN_CONFIG = require("./webpack.main.config");
 const RENDERER_CONFIG = require("./webpack.renderer.config");
-const electronReloadStart = require("./electron.reload");
+const electronReloadStart = require("./electron.handler");
 
 let rendererCompiler = webpack(RENDERER_CONFIG(process.env));
 let mainCompiler = webpack(MAIN_CONFIG(process.env));
 
 let electronChildProcess;
 
-let rendererWatching = rendererCompiler.watch({}, (err, stats) => {
+rendererCompiler.watch({}, (err, stats) => {
   if (!err) {
-    console.log("\n\n\n");
-    console.log(
-      chalk.black.bgBlue(
-        "-----------------------Renderer Watch-----------------------"
-      )
+    printWebpackOutput(
+      stats,
+      "-----------------------Renderer Watch-----------------------",
+      "---------------------Renderer Watch End---------------------",
+      chalk.black.bgBlue
     );
-
-    console.log(
-      stats.toString({
-        colors: true,
-        modules: false,
-        children: false,
-        chunks: false,
-        chunkModules: false
-      })
-    );
-
-    console.log(
-      chalk.black.bgBlue(
-        "---------------------Renderer Watch End---------------------"
-      )
-    );
-
-    // electronChildProcess.send("hhhh");
+    electronChildProcess &&
+      !electronChildProcess.closed &&
+      electronChildProcess.send("RELOAD");
   } else {
     console.error(err);
   }
 });
-
-let mainWatching = mainCompiler.watch({}, (err, stats) => {
+mainCompiler.watch({}, (err, stats) => {
   if (!err) {
-    console.log("\n\n\n");
-    console.log(
-      chalk.black.bgGreen(
-        "-------------------------Main Watch-------------------------"
-      )
-    );
-
-    console.log(
-      stats.toString({
-        colors: true,
-        modules: false,
-        children: false,
-        chunks: false,
-        chunkmodules: false
-      })
-    );
-    console.log(
-      chalk.black.bgGreen(
-        "---------------------Renderer Watch End---------------------"
-      )
+    printWebpackOutput(
+      stats,
+      "-------------------------Main Watch-------------------------",
+      "---------------------Renderer Watch End---------------------",
+      chalk.black.bgGreen
     );
     restartElectronMainProcess();
   } else {
@@ -78,4 +47,19 @@ function restartElectronMainProcess() {
   setTimeout(() => {
     electronChildProcess = electronReloadStart();
   }, 100);
+}
+
+function printWebpackOutput(stats, startText, endText, chalkFn) {
+  console.log("\n\n\n");
+  console.log(chalkFn(startText));
+  console.log(
+    stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkmodules: false
+    })
+  );
+  console.log(chalkFn(endText));
 }

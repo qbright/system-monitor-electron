@@ -93,9 +93,8 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-console.log('hello');
+eval("console.log('fuck');\n\n//# sourceURL=webpack:///./src/render/js/app.js?");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=render.js.map
