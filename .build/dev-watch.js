@@ -1,5 +1,7 @@
 const webpack = require("webpack");
 const chalk = require("chalk");
+const del = require("del");
+const path = require("path");
 const kill = require("./kill");
 
 const MAIN_CONFIG = require("./webpack.main.config");
@@ -10,6 +12,8 @@ let rendererCompiler = webpack(RENDERER_CONFIG(process.env));
 let mainCompiler = webpack(MAIN_CONFIG(process.env));
 
 let electronChildProcess;
+
+del.sync(path.resolve(__dirname, "../dist/*")); //clean dist
 
 rendererCompiler.watch({}, (err, stats) => {
   if (!err) {
