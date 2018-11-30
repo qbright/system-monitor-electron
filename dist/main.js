@@ -109,7 +109,6 @@ function createWindow() {
     width: 800,
     height: 600
   });
-  console.log(__dirname);
   mainWindow.loadFile(path__WEBPACK_IMPORTED_MODULE_1___default.a.resolve(__dirname, "./index.html"));
 
   if (isDevelopment) {
@@ -121,7 +120,10 @@ function createWindow() {
   });
 }
 
-electron__WEBPACK_IMPORTED_MODULE_0__["app"].on("ready", createWindow); // function a() {
+electron__WEBPACK_IMPORTED_MODULE_0__["app"].on("ready", createWindow);
+process.on("message", function () {
+  mainWindow.reload();
+}); // function a() {
 //   return new Promise(resolve => {
 //     setTimeout(() => {
 //       resolve(1111);

@@ -12,7 +12,7 @@ module.exports = env => {
     },
     output: {
       path: DIST_PATH,
-      filename: "[name].[chunkhash:7].js"
+      filename: "[name].js"
     },
     module: {
       rules: [
@@ -30,7 +30,8 @@ module.exports = env => {
         showErrors: true,
         inject: "body"
       })
-    ]
+    ],
+    devtool: "source-map"
   };
 };
 

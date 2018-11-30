@@ -93,8 +93,9 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("console.log(11111111111111111111111111111111111111111111111);\n\n//# sourceURL=webpack:///./src/render/js/app.js?");
+console.log('hhhhasd');
 
 /***/ })
 
 /******/ });
+//# sourceMappingURL=render.js.map

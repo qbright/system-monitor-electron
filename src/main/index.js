@@ -5,19 +5,20 @@ let isDevelopment = process.env.NODE_ENV === "development";
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 800, height: 600 });
 
-  console.log(__dirname);
-
   mainWindow.loadFile(path.resolve(__dirname, "./index.html"));
   if (isDevelopment) {
     mainWindow.webContents.openDevTools();
   }
-
   mainWindow.on("closed", function() {
     mainWindow = null;
   });
 }
-
 app.on("ready", createWindow);
+
+
+process.on("message", () => {
+  mainWindow.reload();
+});
 
 // function a() {
 //   return new Promise(resolve => {
